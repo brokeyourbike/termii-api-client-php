@@ -6,7 +6,7 @@
 
 [![ci](https://github.com/brokeyourbike/termii-api-client-php/actions/workflows/ci.yml/badge.svg)](https://github.com/brokeyourbike/termii-api-client-php/actions/workflows/ci.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1cd42fecafb04e6ed6ff/maintainability)](https://codeclimate.com/github/brokeyourbike/termii-api-client-php/maintainability)
-[![codecov](https://codecov.io/gh/brokeyourbike/termii-api-client-php/branch/main/graph/badge.svg?token=ImcgnxzGfc)](https://codecov.io/gh/brokeyourbike/termii-api-client-php)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/1cd42fecafb04e6ed6ff/test_coverage)](https://codeclimate.com/github/brokeyourbike/termii-api-client-php/test_coverage)
 
 Termii API Client for PHP
 
