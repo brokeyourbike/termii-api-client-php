@@ -8,9 +8,9 @@
 
 namespace BrokeYourBike\Termii;
 
-use App\Enums\Termii\PinType;
-use App\Enums\Termii\MessageType;
-use App\Enums\Termii\ChannelType;
+use BrokeYourBike\Termii\Enums\PinType;
+use BrokeYourBike\Termii\Enums\MessageType;
+use BrokeYourBike\Termii\Enums\ChannelType;
 
 /**
  * @author Ivan Stasiuk <brokeyourbike@gmail.com>
