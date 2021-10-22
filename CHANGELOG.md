@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.1](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v1.0.0...v1.0.1) (2021-10-22)
+
+
+### Miscellaneous Chores
+
+* rearrange badges ([b24035f](https://www.github.com/brokeyourbike/termii-api-client-php/commit/b24035fcda21ca11ac4a3acee5e0fdabfdb9c846))
+
 ## 1.0.0 (2021-10-21)
 
 
