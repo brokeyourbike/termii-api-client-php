@@ -99,13 +99,6 @@ class Client implements HttpClientInterface
      */
     private function performRequest(HttpMethodEnum $method, string $uri, array $data): ResponseInterface
     {
-        $options = [
-            \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
-            \GuzzleHttp\RequestOptions::HEADERS => [
-                'Accept' => 'application/json',
-            ],
-        ];
-
         $data['api_key'] = $this->config->getPublicKey();
 
         $option = match($method) {
@@ -113,7 +106,13 @@ class Client implements HttpClientInterface
             default => \GuzzleHttp\RequestOptions::JSON,
         };
 
-        $options[$option] = $data;
+        $options = [
+            \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
+            \GuzzleHttp\RequestOptions::HEADERS => [
+                'Accept' => 'application/json',
+            ],
+            $option => $data,
+        ];
 
         if ($this->getSourceModel()) {
             $options[RequestOptions::SOURCE_MODEL] = $this->getSourceModel();
