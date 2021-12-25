@@ -1,6 +1,6 @@
 <?php
 
-// Copyright (C) 2021 Ivan Stasiuk <brokeyourbike@gmail.com>.
+// Copyright (C) 2021 Ivan Stasiuk <ivan@stasi.uk>.
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -21,7 +21,7 @@ use BrokeYourBike\HasSourceModel\HasSourceModelTrait;
 use BrokeYourBike\HasSourceModel\Enums\RequestOptions;
 
 /**
- * @author Ivan Stasiuk <brokeyourbike@gmail.com>
+ * @author Ivan Stasiuk <ivan@stasi.uk>
  */
 class Client implements HttpClientInterface
 {
@@ -39,7 +39,7 @@ class Client implements HttpClientInterface
 
     public function fetchBalanceRaw(): ResponseInterface
     {
-        return $this->performRequest(HttpMethodEnum::GET(), 'get-balance', []);
+        return $this->performRequest(HttpMethodEnum::GET, 'get-balance', []);
     }
 
     public function sendMessage(MessageInterface $message): ResponseInterface
@@ -48,12 +48,12 @@ class Client implements HttpClientInterface
             $this->setSourceModel($message);
         }
 
-        return $this->performRequest(HttpMethodEnum::POST(), 'sms/send', [
+        return $this->performRequest(HttpMethodEnum::POST, 'sms/send', [
             'from' => $message->getFrom(),
             'to' => $message->getTo(),
             'sms' => $message->getMessageText(),
-            'type' => $message->getMessageType(),
-            'channel' => $message->getChannelType(),
+            'type' => $message->getMessageType()->value,
+            'channel' => $message->getChannelType()->value,
         ]);
     }
 
@@ -63,13 +63,13 @@ class Client implements HttpClientInterface
             $this->setSourceModel($otpRequest);
         }
 
-        return $this->performRequest(HttpMethodEnum::POST(), 'sms/otp/send', [
+        return $this->performRequest(HttpMethodEnum::POST, 'sms/otp/send', [
             'from' => $otpRequest->getFrom(),
             'to' => $otpRequest->getTo(),
-            'channel' => $otpRequest->getChannelType(),
-            'message_type' => $otpRequest->getMessageType(),
+            'channel' => $otpRequest->getChannelType()->value,
+            'message_type' => $otpRequest->getMessageType()->value,
             'message_text' => $otpRequest->getMessageText(),
-            'pin_type' => $otpRequest->getPinType(),
+            'pin_type' => $otpRequest->getPinType()->value,
             'pin_attempts' => $otpRequest->getPinAttempts(),
             'pin_time_to_live' => $otpRequest->getPinTtlMinutes(),
             'pin_length' => $otpRequest->getPinLength(),
@@ -83,7 +83,7 @@ class Client implements HttpClientInterface
             $this->setSourceModel($otpRequest);
         }
 
-        return $this->performRequest(HttpMethodEnum::POST(), 'sms/otp/verify', [
+        return $this->performRequest(HttpMethodEnum::POST, 'sms/otp/verify', [
             'pin_id' => $otpRequest->getPinId(),
             'pin' => $pin,
         ]);
@@ -108,17 +108,18 @@ class Client implements HttpClientInterface
 
         $data['api_key'] = $this->config->getPublicKey();
 
-        if (HttpMethodEnum::GET()->equals($method)) {
-            $options[\GuzzleHttp\RequestOptions::QUERY] = $data;
-        } elseif (HttpMethodEnum::POST()->equals($method)) {
-            $options[\GuzzleHttp\RequestOptions::JSON] = $data;
-        }
+        $option = match($method) {
+            HttpMethodEnum::GET => \GuzzleHttp\RequestOptions::QUERY,
+            default => \GuzzleHttp\RequestOptions::JSON,
+        };
+
+        $options[$option] = $data;
 
         if ($this->getSourceModel()) {
             $options[RequestOptions::SOURCE_MODEL] = $this->getSourceModel();
         }
 
         $uri = (string) $this->resolveUriFor($this->config->getUrl(), $uri);
-        return $this->httpClient->request((string) $method, $uri, $options);
+        return $this->httpClient->request($method->value, $uri, $options);
     }
 }

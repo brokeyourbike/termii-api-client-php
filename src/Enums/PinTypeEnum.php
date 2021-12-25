@@ -6,13 +6,13 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at https://mozilla.org/MPL/2.0/.
 
-namespace BrokeYourBike\Termii\Tests;
-
-use BrokeYourBike\Termii\OtpRequestInterface;
-use BrokeYourBike\HasSourceModel\SourceModelInterface;
+namespace BrokeYourBike\Termii\Enums;
 
 /**
  * @author Ivan Stasiuk <ivan@stasi.uk>
  */
-abstract class SourceOtpRequestFixture implements OtpRequestInterface, SourceModelInterface
-{}
+enum PinTypeEnum: string
+{
+    case NUMERIC = 'NUMERIC';
+    case ALPHANUMERIC = 'ALPHANUMERIC';
+}

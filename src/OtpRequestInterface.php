@@ -1,6 +1,6 @@
 <?php
 
-// Copyright (C) 2021 Ivan Stasiuk <brokeyourbike@gmail.com>.
+// Copyright (C) 2021 Ivan Stasiuk <ivan@stasi.uk>.
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -8,12 +8,12 @@
 
 namespace BrokeYourBike\Termii;
 
-use BrokeYourBike\Termii\Enums\PinType;
-use BrokeYourBike\Termii\Enums\MessageType;
-use BrokeYourBike\Termii\Enums\ChannelType;
+use BrokeYourBike\Termii\Enums\PinTypeEnum;
+use BrokeYourBike\Termii\Enums\MessageTypeEnum;
+use BrokeYourBike\Termii\Enums\ChannelTypeEnum;
 
 /**
- * @author Ivan Stasiuk <brokeyourbike@gmail.com>
+ * @author Ivan Stasiuk <ivan@stasi.uk>
  */
 interface OtpRequestInterface
 {
@@ -21,9 +21,9 @@ interface OtpRequestInterface
     public function getFrom(): string;
     public function getTo(): string;
     public function getMessageText(): string;
-    public function getMessageType(): MessageType;
-    public function getChannelType(): ChannelType;
-    public function getPinType(): PinType;
+    public function getMessageType(): MessageTypeEnum;
+    public function getChannelType(): ChannelTypeEnum;
+    public function getPinType(): PinTypeEnum;
     public function getPinAttempts(): int;
     public function getPinTtlMinutes(): int;
     public function getPinLength(): int;

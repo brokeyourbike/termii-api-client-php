@@ -1,6 +1,6 @@
 <?php
 
-// Copyright (C) 2021 Ivan Stasiuk <brokeyourbike@gmail.com>.
+// Copyright (C) 2021 Ivan Stasiuk <ivan@stasi.uk>.
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -11,15 +11,15 @@ namespace BrokeYourBike\Termii\Tests;
 use Psr\Http\Message\ResponseInterface;
 use PHPUnit\Framework\TestCase;
 use BrokeYourBike\Termii\OtpRequestInterface;
-use BrokeYourBike\Termii\Enums\PinType;
-use BrokeYourBike\Termii\Enums\MessageType;
-use BrokeYourBike\Termii\Enums\ChannelType;
+use BrokeYourBike\Termii\Enums\PinTypeEnum;
+use BrokeYourBike\Termii\Enums\MessageTypeEnum;
+use BrokeYourBike\Termii\Enums\ChannelTypeEnum;
 use BrokeYourBike\Termii\Client;
 use BrokeYourBike\Termii\ApiConfigInterface;
 use BrokeYourBike\HasSourceModel\Enums\RequestOptions;
 
 /**
- * @author Ivan Stasiuk <brokeyourbike@gmail.com>
+ * @author Ivan Stasiuk <ivan@stasi.uk>
  */
 class SendOneTimePasswordTest extends TestCase
 {
@@ -40,9 +40,9 @@ class SendOneTimePasswordTest extends TestCase
         $mockedOtpRequest->method('getFrom')->willReturn('Jane Doe');
         $mockedOtpRequest->method('getTo')->willReturn('John Doe');
         $mockedOtpRequest->method('getMessageText')->willReturn('Hello John!');
-        $mockedOtpRequest->method('getMessageType')->willReturn(MessageType::ALPHANUMERIC());
-        $mockedOtpRequest->method('getChannelType')->willReturn(ChannelType::GENERIC());
-        $mockedOtpRequest->method('getPinType')->willReturn(PinType::NUMERIC());
+        $mockedOtpRequest->method('getMessageType')->willReturn(MessageTypeEnum::ALPHANUMERIC);
+        $mockedOtpRequest->method('getChannelType')->willReturn(ChannelTypeEnum::GENERIC);
+        $mockedOtpRequest->method('getPinType')->willReturn(PinTypeEnum::NUMERIC);
         $mockedOtpRequest->method('getPinAttempts')->willReturn(1);
         $mockedOtpRequest->method('getPinTtlMinutes')->willReturn(10);
         $mockedOtpRequest->method('getPinLength')->willReturn(5);
@@ -61,10 +61,10 @@ class SendOneTimePasswordTest extends TestCase
                 \GuzzleHttp\RequestOptions::JSON => [
                     'from' => 'Jane Doe',
                     'to' => 'John Doe',
-                    'channel' => ChannelType::GENERIC(),
-                    'message_type' => MessageType::ALPHANUMERIC(),
+                    'channel' => ChannelTypeEnum::GENERIC->value,
+                    'message_type' => MessageTypeEnum::ALPHANUMERIC->value,
                     'message_text' => 'Hello John!',
-                    'pin_type' => PinType::NUMERIC(),
+                    'pin_type' => PinTypeEnum::NUMERIC->value,
                     'pin_attempts' => 1,
                     'pin_time_to_live' => 10,
                     'pin_length' => 5,
@@ -90,9 +90,9 @@ class SendOneTimePasswordTest extends TestCase
     public function it_will_pass_source_model_as_option()
     {
         $model = $this->getMockBuilder(SourceOtpRequestFixture::class)->getMock();
-        $model->method('getMessageType')->willReturn(MessageType::ALPHANUMERIC());
-        $model->method('getChannelType')->willReturn(ChannelType::GENERIC());
-        $model->method('getPinType')->willReturn(PinType::NUMERIC());
+        $model->method('getMessageType')->willReturn(MessageTypeEnum::ALPHANUMERIC);
+        $model->method('getChannelType')->willReturn(ChannelTypeEnum::GENERIC);
+        $model->method('getPinType')->willReturn(PinTypeEnum::NUMERIC);
 
         /** @var SourceOtpRequestFixture $model */
         $model;
@@ -110,10 +110,10 @@ class SendOneTimePasswordTest extends TestCase
                 \GuzzleHttp\RequestOptions::JSON => [
                     'from' => $model->getFrom(),
                     'to' => $model->getTo(),
-                    'channel' => $model->getChannelType(),
-                    'message_type' => $model->getMessageType(),
+                    'channel' => $model->getChannelType()->value,
+                    'message_type' => $model->getMessageType()->value,
                     'message_text' => $model->getMessageText(),
-                    'pin_type' => $model->getPinType(),
+                    'pin_type' => $model->getPinType()->value,
                     'pin_attempts' => $model->getPinAttempts(),
                     'pin_time_to_live' => $model->getPinTtlMinutes(),
                     'pin_length' => $model->getPinLength(),

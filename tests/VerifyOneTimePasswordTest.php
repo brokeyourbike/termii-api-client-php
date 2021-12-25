@@ -1,6 +1,6 @@
 <?php
 
-// Copyright (C) 2021 Ivan Stasiuk <brokeyourbike@gmail.com>.
+// Copyright (C) 2021 Ivan Stasiuk <ivan@stasi.uk>.
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -11,15 +11,15 @@ namespace BrokeYourBike\Termii\Tests;
 use Psr\Http\Message\ResponseInterface;
 use PHPUnit\Framework\TestCase;
 use BrokeYourBike\Termii\OtpRequestInterface;
-use BrokeYourBike\Termii\Enums\PinType;
-use BrokeYourBike\Termii\Enums\MessageType;
-use BrokeYourBike\Termii\Enums\ChannelType;
+use BrokeYourBike\Termii\Enums\PinTypeEnum;
+use BrokeYourBike\Termii\Enums\MessageTypeEnum;
+use BrokeYourBike\Termii\Enums\ChannelTypeEnum;
 use BrokeYourBike\Termii\Client;
 use BrokeYourBike\Termii\ApiConfigInterface;
 use BrokeYourBike\HasSourceModel\Enums\RequestOptions;
 
 /**
- * @author Ivan Stasiuk <brokeyourbike@gmail.com>
+ * @author Ivan Stasiuk <ivan@stasi.uk>
  */
 class VerifyOneTimePasswordTest extends TestCase
 {
@@ -38,9 +38,9 @@ class VerifyOneTimePasswordTest extends TestCase
     {
         $mockedOtpRequest = $this->getMockBuilder(OtpRequestInterface::class)->getMock();
         $mockedOtpRequest->method('getPinId')->willReturn('1234567');
-        $mockedOtpRequest->method('getMessageType')->willReturn(MessageType::ALPHANUMERIC());
-        $mockedOtpRequest->method('getChannelType')->willReturn(ChannelType::GENERIC());
-        $mockedOtpRequest->method('getPinType')->willReturn(PinType::NUMERIC());
+        $mockedOtpRequest->method('getMessageType')->willReturn(MessageTypeEnum::ALPHANUMERIC);
+        $mockedOtpRequest->method('getChannelType')->willReturn(ChannelTypeEnum::GENERIC);
+        $mockedOtpRequest->method('getPinType')->willReturn(PinTypeEnum::NUMERIC);
 
         /** @var \Mockery\MockInterface $mockedClient */
         $mockedClient = \Mockery::mock(\GuzzleHttp\Client::class);
@@ -77,9 +77,9 @@ class VerifyOneTimePasswordTest extends TestCase
     {
         $model = $this->getMockBuilder(SourceOtpRequestFixture::class)->getMock();
         $model->method('getPinId')->willReturn('1234567');
-        $model->method('getMessageType')->willReturn(MessageType::ALPHANUMERIC());
-        $model->method('getChannelType')->willReturn(ChannelType::GENERIC());
-        $model->method('getPinType')->willReturn(PinType::NUMERIC());
+        $model->method('getMessageType')->willReturn(MessageTypeEnum::ALPHANUMERIC);
+        $model->method('getChannelType')->willReturn(ChannelTypeEnum::GENERIC);
+        $model->method('getPinType')->willReturn(PinTypeEnum::NUMERIC);
 
         /** @var \Mockery\MockInterface $mockedClient */
         $mockedClient = \Mockery::mock(\GuzzleHttp\Client::class);

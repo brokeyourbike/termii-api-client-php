@@ -1,6 +1,6 @@
 <?php
 
-// Copyright (C) 2021 Ivan Stasiuk <brokeyourbike@gmail.com>.
+// Copyright (C) 2021 Ivan Stasiuk <ivan@stasi.uk>.
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -11,14 +11,14 @@ namespace BrokeYourBike\Termii\Tests;
 use Psr\Http\Message\ResponseInterface;
 use PHPUnit\Framework\TestCase;
 use BrokeYourBike\Termii\MessageInterface;
-use BrokeYourBike\Termii\Enums\MessageType;
-use BrokeYourBike\Termii\Enums\ChannelType;
+use BrokeYourBike\Termii\Enums\MessageTypeEnum;
+use BrokeYourBike\Termii\Enums\ChannelTypeEnum;
 use BrokeYourBike\Termii\Client;
 use BrokeYourBike\Termii\ApiConfigInterface;
 use BrokeYourBike\HasSourceModel\Enums\RequestOptions;
 
 /**
- * @author Ivan Stasiuk <brokeyourbike@gmail.com>
+ * @author Ivan Stasiuk <ivan@stasi.uk>
  */
 class SendMessageTest extends TestCase
 {
@@ -39,8 +39,8 @@ class SendMessageTest extends TestCase
         $mockedMessage->method('getFrom')->willReturn('Jane Doe');
         $mockedMessage->method('getTo')->willReturn('John Doe');
         $mockedMessage->method('getMessageText')->willReturn('Hello John!');
-        $mockedMessage->method('getMessageType')->willReturn(MessageType::ALPHANUMERIC());
-        $mockedMessage->method('getChannelType')->willReturn(ChannelType::GENERIC());
+        $mockedMessage->method('getMessageType')->willReturn(MessageTypeEnum::ALPHANUMERIC);
+        $mockedMessage->method('getChannelType')->willReturn(ChannelTypeEnum::GENERIC);
 
         /** @var \Mockery\MockInterface $mockedClient */
         $mockedClient = \Mockery::mock(\GuzzleHttp\Client::class);
@@ -56,8 +56,8 @@ class SendMessageTest extends TestCase
                     'from' => 'Jane Doe',
                     'to' => 'John Doe',
                     'sms' => 'Hello John!',
-                    'type' => MessageType::ALPHANUMERIC(),
-                    'channel' => ChannelType::GENERIC(),
+                    'type' => MessageTypeEnum::ALPHANUMERIC->value,
+                    'channel' => ChannelTypeEnum::GENERIC->value,
                     'api_key' => $this->publicKey,
                 ],
             ],
@@ -79,8 +79,8 @@ class SendMessageTest extends TestCase
     public function it_will_pass_source_model_as_option()
     {
         $model = $this->getMockBuilder(SourceMessageFixture::class)->getMock();
-        $model->method('getMessageType')->willReturn(MessageType::ALPHANUMERIC());
-        $model->method('getChannelType')->willReturn(ChannelType::GENERIC());
+        $model->method('getMessageType')->willReturn(MessageTypeEnum::ALPHANUMERIC);
+        $model->method('getChannelType')->willReturn(ChannelTypeEnum::GENERIC);
 
         /** @var SourceMessageFixture $model */
         $model;
@@ -99,8 +99,8 @@ class SendMessageTest extends TestCase
                     'from' => $model->getFrom(),
                     'to' => $model->getTo(),
                     'sms' => $model->getMessageText(),
-                    'type' => $model->getMessageType(),
-                    'channel' => $model->getChannelType(),
+                    'type' => $model->getMessageType()->value,
+                    'channel' => $model->getChannelType()->value,
                     'api_key' => $this->publicKey,
                 ],
                 RequestOptions::SOURCE_MODEL => $model,
