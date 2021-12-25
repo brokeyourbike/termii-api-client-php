@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.1.1](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.1.0...v0.1.1) (2021-12-25)
+
+
+### Bug Fixes
+
+* use native enums ([dcc4531](https://www.github.com/brokeyourbike/termii-api-client-php/commit/dcc453155e1736a5bfe6997a0178a58357d1050d))
+
 ## 0.1.0 (2021-12-19)
 
 
