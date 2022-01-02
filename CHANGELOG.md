@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.1](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.2.0...v0.2.1) (2022-01-02)
+
+
+### Bug Fixes
+
+* remove baseline ([67ba131](https://www.github.com/brokeyourbike/termii-api-client-php/commit/67ba131f140acef23194799d9a8599ce1f7917a5))
+
 ## [0.2.0](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.1.0...v0.2.0) (2021-12-25)
 
 
