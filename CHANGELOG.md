@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.2.1...v0.3.0) (2022-01-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* add responses
+* put interfaces in separate folder
+
+### Features
+
+* add responses ([660d19b](https://www.github.com/brokeyourbike/termii-api-client-php/commit/660d19b3ef301ab33d041f0accaaff86f57c1f5d))
+
+
+### Bug Fixes
+
+* add `getConfig` ([e787902](https://www.github.com/brokeyourbike/termii-api-client-php/commit/e787902bbc808a5c1eea73fd47685fbe13acaec2))
+* put interfaces in separate folder ([3af98aa](https://www.github.com/brokeyourbike/termii-api-client-php/commit/3af98aa073c2c183318ddfafe71df7a33ed86f34))
+
 ### [0.2.1](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.2.0...v0.2.1) (2022-01-02)
 
 
