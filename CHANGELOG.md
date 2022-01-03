@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.3.1](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.3.0...v0.3.1) (2022-01-03)
+
+
+### Bug Fixes
+
+* update `brokeyourbike/data-transfer-object` ([ad40554](https://www.github.com/brokeyourbike/termii-api-client-php/commit/ad40554059e6c167e9ce658d15aed75860509687))
+
 ## [0.3.0](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.2.1...v0.3.0) (2022-01-03)
 
 
