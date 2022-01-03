@@ -9,7 +9,7 @@
 namespace BrokeYourBike\Termii\Tests;
 
 use Psr\Http\Message\ResponseInterface;
-use PHPUnit\Framework\TestCase;
+use BrokeYourBike\Termii\Models\FetchBalanceResponse;
 use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
 use BrokeYourBike\Termii\Client;
 
@@ -44,7 +44,6 @@ class FetchBalanceRawTest extends TestCase
             'GET',
             'https://api.example/get-balance',
             [
-                \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
                 \GuzzleHttp\RequestOptions::HEADERS => [
                     'Accept' => 'application/json',
                 ],
@@ -59,15 +58,11 @@ class FetchBalanceRawTest extends TestCase
          * @var \GuzzleHttp\Client $mockedClient
          * */
         $api = new Client($mockedConfig, $mockedClient);
-        $requestResult = $api->fetchBalanceRaw();
+        $response = $api->fetchBalanceRaw();
 
-        $this->assertInstanceOf(ResponseInterface::class, $requestResult);
-        $this->assertSame(200, $requestResult->getStatusCode());
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        \Mockery::close();
+        $this->assertInstanceOf(FetchBalanceResponse::class, $response);
+        $this->assertSame('JOHN DOE', $response->user);
+        $this->assertSame(4662.3, $response->balance);
+        $this->assertSame('NGN', $response->currency);
     }
 }

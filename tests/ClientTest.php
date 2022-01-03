@@ -8,7 +8,6 @@
 
 namespace BrokeYourBike\Termii\Tests;
 
-use PHPUnit\Framework\TestCase;
 use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
 use BrokeYourBike\Termii\Client;
 use BrokeYourBike\ResolveUri\ResolveUriTrait;

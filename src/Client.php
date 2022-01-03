@@ -9,6 +9,10 @@
 namespace BrokeYourBike\Termii;
 
 use Psr\Http\Message\ResponseInterface;
+use BrokeYourBike\Termii\Models\VerifyOneTimePasswordResponse;
+use BrokeYourBike\Termii\Models\SendOneTimePasswordResponse;
+use BrokeYourBike\Termii\Models\SendMessageResponse;
+use BrokeYourBike\Termii\Models\FetchBalanceResponse;
 use BrokeYourBike\Termii\Interfaces\OtpRequestInterface;
 use BrokeYourBike\Termii\Interfaces\MessageInterface;
 use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
@@ -42,33 +46,35 @@ class Client implements HttpClientInterface
         return $this->config;
     }
 
-    public function fetchBalanceRaw(): ResponseInterface
+    public function fetchBalanceRaw(): FetchBalanceResponse
     {
-        return $this->performRequest(HttpMethodEnum::GET, 'get-balance', []);
+        $response = $this->performRequest(HttpMethodEnum::GET, 'get-balance', []);
+        return new FetchBalanceResponse($response);
     }
 
-    public function sendMessage(MessageInterface $message): ResponseInterface
+    public function sendMessage(MessageInterface $message): SendMessageResponse
     {
         if ($message instanceof SourceModelInterface) {
             $this->setSourceModel($message);
         }
 
-        return $this->performRequest(HttpMethodEnum::POST, 'sms/send', [
+        $response = $this->performRequest(HttpMethodEnum::POST, 'sms/send', [
             'from' => $message->getFrom(),
             'to' => $message->getTo(),
             'sms' => $message->getMessageText(),
             'type' => $message->getMessageType()->value,
             'channel' => $message->getChannelType()->value,
         ]);
+        return new SendMessageResponse($response);
     }
 
-    public function sendOneTimePassword(OtpRequestInterface $otpRequest): ResponseInterface
+    public function sendOneTimePassword(OtpRequestInterface $otpRequest): SendOneTimePasswordResponse
     {
         if ($otpRequest instanceof SourceModelInterface) {
             $this->setSourceModel($otpRequest);
         }
 
-        return $this->performRequest(HttpMethodEnum::POST, 'sms/otp/send', [
+        $response = $this->performRequest(HttpMethodEnum::POST, 'sms/otp/send', [
             'from' => $otpRequest->getFrom(),
             'to' => $otpRequest->getTo(),
             'channel' => $otpRequest->getChannelType()->value,
@@ -80,18 +86,20 @@ class Client implements HttpClientInterface
             'pin_length' => $otpRequest->getPinLength(),
             'pin_placeholder' => $otpRequest->getPinPlaceholder(),
         ]);
+        return new SendOneTimePasswordResponse($response);
     }
 
-    public function verifyOneTimePassword(OtpRequestInterface $otpRequest, string $pin): ResponseInterface
+    public function verifyOneTimePassword(OtpRequestInterface $otpRequest, string $pin): VerifyOneTimePasswordResponse
     {
         if ($otpRequest instanceof SourceModelInterface) {
             $this->setSourceModel($otpRequest);
         }
 
-        return $this->performRequest(HttpMethodEnum::POST, 'sms/otp/verify', [
+        $response = $this->performRequest(HttpMethodEnum::POST, 'sms/otp/verify', [
             'pin_id' => $otpRequest->getPinId(),
             'pin' => $pin,
         ]);
+        return new VerifyOneTimePasswordResponse($response);
     }
 
     /**
@@ -112,7 +120,6 @@ class Client implements HttpClientInterface
         };
 
         $options = [
-            \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
             \GuzzleHttp\RequestOptions::HEADERS => [
                 'Accept' => 'application/json',
             ],

@@ -9,14 +9,13 @@
 namespace BrokeYourBike\Termii\Tests;
 
 use Psr\Http\Message\ResponseInterface;
-use PHPUnit\Framework\TestCase;
+use BrokeYourBike\Termii\Models\VerifyOneTimePasswordResponse;
 use BrokeYourBike\Termii\Interfaces\OtpRequestInterface;
 use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
 use BrokeYourBike\Termii\Enums\PinTypeEnum;
 use BrokeYourBike\Termii\Enums\MessageTypeEnum;
 use BrokeYourBike\Termii\Enums\ChannelTypeEnum;
 use BrokeYourBike\Termii\Client;
-use BrokeYourBike\HasSourceModel\Enums\RequestOptions;
 
 /**
  * @author Ivan Stasiuk <ivan@stasi.uk>
@@ -42,13 +41,21 @@ class VerifyOneTimePasswordTest extends TestCase
         $mockedOtpRequest->method('getChannelType')->willReturn(ChannelTypeEnum::GENERIC);
         $mockedOtpRequest->method('getPinType')->willReturn(PinTypeEnum::NUMERIC);
 
+        $mockedResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();
+        $mockedResponse->method('getStatusCode')->willReturn(200);
+        $mockedResponse->method('getBody')
+            ->willReturn(' {
+                "pinId": "c8dcd048-5e7f-4347-8c89-4470c3af0b",
+                "verified": "True",
+                "msisdn": "2348109077743"
+            }');
+
         /** @var \Mockery\MockInterface $mockedClient */
         $mockedClient = \Mockery::mock(\GuzzleHttp\Client::class);
         $mockedClient->shouldReceive('request')->withArgs([
             'POST',
             'https://api.example/sms/otp/verify',
             [
-                \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
                 \GuzzleHttp\RequestOptions::HEADERS => [
                     'Accept' => 'application/json',
                 ],
@@ -58,7 +65,7 @@ class VerifyOneTimePasswordTest extends TestCase
                     'api_key' => $this->publicKey,
                 ],
             ],
-        ])->once();
+        ])->once()->andReturn($mockedResponse);
 
         /**
          * @var ApiConfigInterface $mockedConfig
@@ -69,52 +76,6 @@ class VerifyOneTimePasswordTest extends TestCase
         /** @var OtpRequestInterface $mockedOtpRequest */
         $requestResult = $api->verifyOneTimePassword($mockedOtpRequest, '000111');
 
-        $this->assertInstanceOf(ResponseInterface::class, $requestResult);
-    }
-
-    /** @test */
-    public function it_will_pass_source_model_as_option(): void
-    {
-        $model = $this->getMockBuilder(SourceOtpRequestFixture::class)->getMock();
-        $model->method('getPinId')->willReturn('1234567');
-        $model->method('getMessageType')->willReturn(MessageTypeEnum::ALPHANUMERIC);
-        $model->method('getChannelType')->willReturn(ChannelTypeEnum::GENERIC);
-        $model->method('getPinType')->willReturn(PinTypeEnum::NUMERIC);
-
-        /** @var \Mockery\MockInterface $mockedClient */
-        $mockedClient = \Mockery::mock(\GuzzleHttp\Client::class);
-        $mockedClient->shouldReceive('request')->withArgs([
-            'POST',
-            'https://api.example/sms/otp/verify',
-            [
-                \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
-                \GuzzleHttp\RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
-                ],
-                \GuzzleHttp\RequestOptions::JSON => [
-                    'pin_id' => '1234567',
-                    'pin' => '000111',
-                    'api_key' => $this->publicKey,
-                ],
-                RequestOptions::SOURCE_MODEL => $model,
-            ],
-        ])->once();
-
-        /**
-         * @var ApiConfigInterface $mockedConfig
-         * @var \GuzzleHttp\Client $mockedClient
-         * */
-        $api = new Client($this->mockedConfig, $mockedClient);
-
-        /** @var OtpRequestInterface $model */
-        $requestResult = $api->verifyOneTimePassword($model, '000111');
-
-        $this->assertInstanceOf(ResponseInterface::class, $requestResult);
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        \Mockery::close();
+        $this->assertInstanceOf(VerifyOneTimePasswordResponse::class, $requestResult);
     }
 }

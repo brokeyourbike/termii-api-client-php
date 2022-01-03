@@ -9,14 +9,13 @@
 namespace BrokeYourBike\Termii\Tests;
 
 use Psr\Http\Message\ResponseInterface;
-use PHPUnit\Framework\TestCase;
+use BrokeYourBike\Termii\Models\SendOneTimePasswordResponse;
 use BrokeYourBike\Termii\Interfaces\OtpRequestInterface;
 use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
 use BrokeYourBike\Termii\Enums\PinTypeEnum;
 use BrokeYourBike\Termii\Enums\MessageTypeEnum;
 use BrokeYourBike\Termii\Enums\ChannelTypeEnum;
 use BrokeYourBike\Termii\Client;
-use BrokeYourBike\HasSourceModel\Enums\RequestOptions;
 
 /**
  * @author Ivan Stasiuk <ivan@stasi.uk>
@@ -48,13 +47,21 @@ class SendOneTimePasswordTest extends TestCase
         $mockedOtpRequest->method('getPinLength')->willReturn(5);
         $mockedOtpRequest->method('getPinPlaceholder')->willReturn('<12345>');
 
+        $mockedResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();
+        $mockedResponse->method('getStatusCode')->willReturn(200);
+        $mockedResponse->method('getBody')
+            ->willReturn('{
+                "pinId": "29ae67c2-c8e1-4165-8a51-8d3d7c298081",
+                "to": "2348109077743",
+                "smsStatus": "Message Sent"
+            }');
+
         /** @var \Mockery\MockInterface $mockedClient */
         $mockedClient = \Mockery::mock(\GuzzleHttp\Client::class);
         $mockedClient->shouldReceive('request')->withArgs([
             'POST',
             'https://api.example/sms/otp/send',
             [
-                \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
                 \GuzzleHttp\RequestOptions::HEADERS => [
                     'Accept' => 'application/json',
                 ],
@@ -72,7 +79,7 @@ class SendOneTimePasswordTest extends TestCase
                     'api_key' => $this->publicKey,
                 ],
             ],
-        ])->once();
+        ])->once()->andReturn($mockedResponse);
 
         /**
          * @var ApiConfigInterface $mockedConfig
@@ -83,60 +90,6 @@ class SendOneTimePasswordTest extends TestCase
         /** @var OtpRequestInterface $mockedOtpRequest */
         $requestResult = $api->sendOneTimePassword($mockedOtpRequest);
 
-        $this->assertInstanceOf(ResponseInterface::class, $requestResult);
-    }
-
-    /** @test */
-    public function it_will_pass_source_model_as_option()
-    {
-        $model = $this->getMockBuilder(SourceOtpRequestFixture::class)->getMock();
-        $model->method('getMessageType')->willReturn(MessageTypeEnum::ALPHANUMERIC);
-        $model->method('getChannelType')->willReturn(ChannelTypeEnum::GENERIC);
-        $model->method('getPinType')->willReturn(PinTypeEnum::NUMERIC);
-
-        /** @var SourceOtpRequestFixture $model */
-        $model;
-
-        /** @var \Mockery\MockInterface $mockedClient */
-        $mockedClient = \Mockery::mock(\GuzzleHttp\Client::class);
-        $mockedClient->shouldReceive('request')->withArgs([
-            'POST',
-            'https://api.example/sms/otp/send',
-            [
-                \GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
-                \GuzzleHttp\RequestOptions::HEADERS => [
-                    'Accept' => 'application/json',
-                ],
-                \GuzzleHttp\RequestOptions::JSON => [
-                    'from' => $model->getFrom(),
-                    'to' => $model->getTo(),
-                    'channel' => $model->getChannelType()->value,
-                    'message_type' => $model->getMessageType()->value,
-                    'message_text' => $model->getMessageText(),
-                    'pin_type' => $model->getPinType()->value,
-                    'pin_attempts' => $model->getPinAttempts(),
-                    'pin_time_to_live' => $model->getPinTtlMinutes(),
-                    'pin_length' => $model->getPinLength(),
-                    'pin_placeholder' => $model->getPinPlaceholder(),
-                    'api_key' => $this->publicKey,
-                ],
-                RequestOptions::SOURCE_MODEL => $model,
-            ],
-        ])->once();
-
-        /**
-         * @var ApiConfigInterface $mockedConfig
-         * @var \GuzzleHttp\Client $mockedClient
-         * */
-        $api = new Client($this->mockedConfig, $mockedClient);
-        $requestResult = $api->sendOneTimePassword($model);
-
-        $this->assertInstanceOf(ResponseInterface::class, $requestResult);
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        \Mockery::close();
+        $this->assertInstanceOf(SendOneTimePasswordResponse::class, $requestResult);
     }
 }

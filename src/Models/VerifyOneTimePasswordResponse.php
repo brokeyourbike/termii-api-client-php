@@ -6,13 +6,16 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at https://mozilla.org/MPL/2.0/.
 
-namespace BrokeYourBike\Termii\Tests;
+namespace BrokeYourBike\Termii\Models;
 
-use BrokeYourBike\Termii\Interfaces\OtpRequestInterface;
-use BrokeYourBike\HasSourceModel\SourceModelInterface;
+use BrokeYourBike\DataTransferObject\JsonResponse;
 
 /**
  * @author Ivan Stasiuk <ivan@stasi.uk>
  */
-abstract class SourceOtpRequestFixture implements OtpRequestInterface, SourceModelInterface
-{}
+class VerifyOneTimePasswordResponse extends JsonResponse
+{
+    public string $pinId;
+    public string $verified;
+    public string $msisdn;
+}

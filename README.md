@@ -20,6 +20,10 @@ composer require brokeyourbike/termii-api-client
 
 ```php
 use BrokeYourBike\Termii\Client;
+use BrokeYourBike\Termii\Interface\ApiConfigInterface;
+
+assert($config instanceof ApiConfigInterface);
+assert($httpClient instanceof \GuzzleHttp\ClientInterface);
 
 $apiClient = new Client($config, $httpClient);
 $apiClient->fetchBalanceRaw();
