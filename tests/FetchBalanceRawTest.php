@@ -10,8 +10,8 @@ namespace BrokeYourBike\Termii\Tests;
 
 use Psr\Http\Message\ResponseInterface;
 use PHPUnit\Framework\TestCase;
+use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
 use BrokeYourBike\Termii\Client;
-use BrokeYourBike\Termii\ApiConfigInterface;
 
 /**
  * @author Ivan Stasiuk <ivan@stasi.uk>

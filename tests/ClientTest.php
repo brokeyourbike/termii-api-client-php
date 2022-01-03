@@ -9,8 +9,8 @@
 namespace BrokeYourBike\Termii\Tests;
 
 use PHPUnit\Framework\TestCase;
+use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
 use BrokeYourBike\Termii\Client;
-use BrokeYourBike\Termii\ApiConfigInterface;
 use BrokeYourBike\ResolveUri\ResolveUriTrait;
 use BrokeYourBike\HttpClient\HttpClientTrait;
 use BrokeYourBike\HttpClient\HttpClientInterface;

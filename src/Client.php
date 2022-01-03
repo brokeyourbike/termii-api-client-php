@@ -9,9 +9,9 @@
 namespace BrokeYourBike\Termii;
 
 use Psr\Http\Message\ResponseInterface;
-use BrokeYourBike\Termii\OtpRequestInterface;
-use BrokeYourBike\Termii\MessageInterface;
-use BrokeYourBike\Termii\ApiConfigInterface;
+use BrokeYourBike\Termii\Interfaces\OtpRequestInterface;
+use BrokeYourBike\Termii\Interfaces\MessageInterface;
+use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
 use BrokeYourBike\ResolveUri\ResolveUriTrait;
 use BrokeYourBike\HttpEnums\HttpMethodEnum;
 use BrokeYourBike\HttpClient\HttpClientTrait;

@@ -10,11 +10,11 @@ namespace BrokeYourBike\Termii\Tests;
 
 use Psr\Http\Message\ResponseInterface;
 use PHPUnit\Framework\TestCase;
-use BrokeYourBike\Termii\MessageInterface;
+use BrokeYourBike\Termii\Interfaces\MessageInterface;
+use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
 use BrokeYourBike\Termii\Enums\MessageTypeEnum;
 use BrokeYourBike\Termii\Enums\ChannelTypeEnum;
 use BrokeYourBike\Termii\Client;
-use BrokeYourBike\Termii\ApiConfigInterface;
 use BrokeYourBike\HasSourceModel\Enums\RequestOptions;
 
 /**

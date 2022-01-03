@@ -8,7 +8,7 @@
 
 namespace BrokeYourBike\Termii\Tests;
 
-use BrokeYourBike\Termii\MessageInterface;
+use BrokeYourBike\Termii\Interfaces\MessageInterface;
 use BrokeYourBike\HasSourceModel\SourceModelInterface;
 
 /**
