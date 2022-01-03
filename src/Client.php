@@ -37,6 +37,11 @@ class Client implements HttpClientInterface
         $this->httpClient = $httpClient;
     }
 
+    public function getConfig(): ApiConfigInterface
+    {
+        return $this->config;
+    }
+
     public function fetchBalanceRaw(): ResponseInterface
     {
         return $this->performRequest(HttpMethodEnum::GET, 'get-balance', []);
