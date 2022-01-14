@@ -16,10 +16,10 @@ use BrokeYourBike\DataTransferObject\JsonResponse;
  */
 class SendMessageResponse extends JsonResponse
 {
-    #[MapFrom('message_id')]
-    public string $messageId;
-
     public string $message;
-    public float $balance;
-    public string $user;
+    public ?string $user;
+    public ?float $balance;
+
+    #[MapFrom('message_id')]
+    public ?string $messageId;
 }
