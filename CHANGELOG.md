@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.3.2](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.3.1...v0.3.2) (2022-01-14)
+
+
+### Bug Fixes
+
+* adjust response schema ([370b960](https://www.github.com/brokeyourbike/termii-api-client-php/commit/370b96097d6ed26ed6f03f47ad9167850eeb921a))
+
 ### [0.3.1](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.3.0...v0.3.1) (2022-01-03)
 
 
