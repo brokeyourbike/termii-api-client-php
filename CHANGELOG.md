@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.3.4](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.3.3...v0.3.4) (2023-05-20)
+
+
+### Miscellaneous Chores
+
+* button ([06f018c](https://www.github.com/brokeyourbike/termii-api-client-php/commit/06f018c5e9fbe5eb0d745172bed6d226711e0904))
+
 ### [0.3.3](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.3.2...v0.3.3) (2023-05-14)
 
 
