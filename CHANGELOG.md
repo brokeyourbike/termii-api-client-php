@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.3.4...v0.4.0) (2025-05-29)
+
+
+### Features
+
+* template ([a925020](https://www.github.com/brokeyourbike/termii-api-client-php/commit/a92502073c41b42885a8391fa2057132006725b0))
+
 ### [0.3.4](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.3.3...v0.3.4) (2023-05-20)
 
 
