@@ -23,6 +23,8 @@ use BrokeYourBike\HttpClient\HttpClientInterface;
 use BrokeYourBike\HasSourceModel\SourceModelInterface;
 use BrokeYourBike\HasSourceModel\HasSourceModelTrait;
 use BrokeYourBike\HasSourceModel\Enums\RequestOptions;
+use BrokeYourBike\Termii\Interfaces\TemplateInterface;
+use BrokeYourBike\Termii\Models\SendTemplateResponse;
 
 /**
  * @author Ivan Stasiuk <ivan@stasi.uk>
@@ -66,6 +68,22 @@ class Client implements HttpClientInterface
             'channel' => $message->getChannelType()->value,
         ]);
         return new SendMessageResponse($response);
+    }
+
+    public function sendTemplate(TemplateInterface $message): SendTemplateResponse
+    {
+        if ($message instanceof SourceModelInterface) {
+            $this->setSourceModel($message);
+        }
+
+        $response = $this->performRequest(HttpMethodEnum::POST, 'send/template', [
+            'device_id' => $message->getDeviceId(),
+            'template_id' => $message->getTemplateId(),
+            'to' => $message->getTo(),
+            'data' => $message->getData(),
+        ]);
+    
+        return new SendTemplateResponse($response);
     }
 
     public function sendOneTimePassword(OtpRequestInterface $otpRequest): SendOneTimePasswordResponse
