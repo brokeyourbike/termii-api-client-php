@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.4.1](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.4.0...v0.4.1) (2025-05-30)
+
+
+### Bug Fixes
+
+* phone_number ([8e83776](https://www.github.com/brokeyourbike/termii-api-client-php/commit/8e837769eefa95b7d5753f06a493797a92b5ff44))
+
 ## [0.4.0](https://www.github.com/brokeyourbike/termii-api-client-php/compare/v0.3.4...v0.4.0) (2025-05-29)
 
 
