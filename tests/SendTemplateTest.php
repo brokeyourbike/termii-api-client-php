@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use BrokeYourBike\Termii\Interfaces\ApiConfigInterface;
 use BrokeYourBike\Termii\Client;
 use BrokeYourBike\Termii\Interfaces\TemplateInterface;
-use BrokeYourBike\Termii\Models\SendTemplateResponse;
+use BrokeYourBike\Termii\Models\SendMessageResponse;
 
 /**
  * @author Ivan Stasiuk <ivan@stasi.uk>
@@ -45,13 +45,14 @@ class SendTemplateTest extends TestCase
         $mockedResponse->method('getStatusCode')->willReturn(200);
         $mockedResponse->method('getHeaders')->willReturn([]);
         $mockedResponse->method('getBody')
-            ->willReturn('[{
-                    "code": "ok",
-                    "message_id": "2255298515609943356",
-                    "message": "Successfully Sent",
-                    "balance": "unlimited",
-                    "user": "Termii Inc."
-                }]');
+            ->willReturn('{
+                "code": "ok",
+                "balance": 12.34,
+                "message_id": "1234567890",
+                "message": "Successfully Sent",
+                "user": "JOHN DOE",
+                "message_id_str": "00001234567890"
+            }');
 
         /** @var \Mockery\MockInterface $mockedClient */
         $mockedClient = \Mockery::mock(\GuzzleHttp\Client::class);
@@ -66,7 +67,7 @@ class SendTemplateTest extends TestCase
         /** @var TemplateInterface $mockedTemplate */
         $requestResult = $api->sendTemplate($mockedTemplate);
 
-        $this->assertInstanceOf(SendTemplateResponse::class, $requestResult);
-        $this->assertCount(1, $requestResult->data);
+        $this->assertInstanceOf(SendMessageResponse::class, $requestResult);
+        $this->assertEquals('1234567890', $requestResult->messageId);
     }
 }

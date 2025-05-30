@@ -70,7 +70,7 @@ class Client implements HttpClientInterface
         return new SendMessageResponse($response);
     }
 
-    public function sendTemplate(TemplateInterface $message): SendTemplateResponse
+    public function sendTemplate(TemplateInterface $message): SendMessageResponse
     {
         if ($message instanceof SourceModelInterface) {
             $this->setSourceModel($message);
@@ -83,7 +83,7 @@ class Client implements HttpClientInterface
             'data' => $message->getData(),
         ]);
     
-        return new SendTemplateResponse($response);
+        return new SendMessageResponse($response);
     }
 
     public function sendOneTimePassword(OtpRequestInterface $otpRequest): SendOneTimePasswordResponse
