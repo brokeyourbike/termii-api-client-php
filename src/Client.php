@@ -79,7 +79,7 @@ class Client implements HttpClientInterface
         $response = $this->performRequest(HttpMethodEnum::POST, 'send/template', [
             'device_id' => $message->getDeviceId(),
             'template_id' => $message->getTemplateId(),
-            'to' => $message->getTo(),
+            'phone_number' => $message->getTo(),
             'data' => $message->getData(),
         ]);
     
