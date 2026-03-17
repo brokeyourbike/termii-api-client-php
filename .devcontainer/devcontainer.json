@@ -3,5 +3,5 @@
 {
 	"name": "termii-api-client-php",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/php:0-8.1"
+	"image": "mcr.microsoft.com/vscode/devcontainers/php:8.2"
 }

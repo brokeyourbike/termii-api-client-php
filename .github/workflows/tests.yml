@@ -30,11 +30,3 @@ jobs:
       continue-on-error: true
       with:
         files: ./coverage.xml
-
-    - uses: paambaati/codeclimate-action@v4
-      continue-on-error: true
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      with:
-        coverageCommand: ''
-        coverageLocations: ./coverage.xml:clover
